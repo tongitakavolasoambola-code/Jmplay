@@ -75,29 +75,53 @@ jobs:
           RES=android/app/src/main/res/values
           cat > "$JAVA_DIR/NavBar.java" <<EOF
           package $APPID;
+          import android.app.Activity;
+          import android.content.SharedPreferences;
           import android.graphics.Color;
           import android.os.Build;
           import android.view.View;
           import android.view.Window;
+          import android.view.WindowManager;
           import com.getcapacitor.Plugin;
           import com.getcapacitor.PluginCall;
           import com.getcapacitor.PluginMethod;
           import com.getcapacitor.annotation.CapacitorPlugin;
           @CapacitorPlugin(name = "NavBar")
           public class NavBar extends Plugin {
+            // Mampihatra ny loko voatahiry amin'ny bara ambony (status) sy ambany (navigation). Antsoina isaky ny miverina ny app.
+            static void apply(Activity a) {
+              try {
+                SharedPreferences sp = a.getSharedPreferences("fjm", 0);
+                String n = sp.getString("nav", null);
+                String s = sp.getString("status", null);
+                Window w = a.getWindow();
+                View d = w.getDecorView();
+                int f = d.getSystemUiVisibility();
+                if (n != null) {
+                  w.setNavigationBarColor(Color.parseColor(n));
+                  if (Build.VERSION.SDK_INT >= 29) w.setNavigationBarContrastEnforced(false);
+                  if (Build.VERSION.SDK_INT >= 26) f = sp.getBoolean("navLight", false) ? (f | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR) : (f & ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+                }
+                if (s != null) {
+                  w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                  w.setStatusBarColor(Color.parseColor(s));
+                  if (Build.VERSION.SDK_INT >= 23) f = sp.getBoolean("statusLight", false) ? (f | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR) : (f & ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }
+                d.setSystemUiVisibility(f);
+              } catch (Exception e) { }
+            }
             @PluginMethod
             public void setColor(final PluginCall call) {
               final String c = call.getString("color", "#000000");
+              final String sc = call.getString("status", c);
               final boolean light = Boolean.TRUE.equals(call.getBoolean("light", false));
+              final boolean sl = Boolean.TRUE.equals(call.getBoolean("statusLight", light));
               getActivity().runOnUiThread(() -> {
                 try {
-                  Window w = getActivity().getWindow();
-                  w.setNavigationBarColor(Color.parseColor(c));
-                  if (Build.VERSION.SDK_INT >= 29) w.setNavigationBarContrastEnforced(false);
-                  View d = w.getDecorView();
-                  int f = d.getSystemUiVisibility();
-                  f = light ? (f | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR) : (f & ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-                  d.setSystemUiVisibility(f);
+                  getActivity().getSharedPreferences("fjm", 0).edit()
+                    .putString("nav", c).putString("status", sc)
+                    .putBoolean("navLight", light).putBoolean("statusLight", sl).apply();
+                  apply(getActivity());
                   call.resolve();
                 } catch (Exception e) { call.reject(String.valueOf(e.getMessage())); }
               });
@@ -113,6 +137,17 @@ jobs:
             public void onCreate(Bundle savedInstanceState) {
               registerPlugin(NavBar.class);
               super.onCreate(savedInstanceState);
+            }
+            @Override
+            public void onResume() {
+              super.onResume();
+              NavBar.apply(this);
+              getWindow().getDecorView().postDelayed(() -> NavBar.apply(this), 300);
+            }
+            @Override
+            public void onWindowFocusChanged(boolean hasFocus) {
+              super.onWindowFocusChanged(hasFocus);
+              if (hasFocus) NavBar.apply(this);
             }
           }
           EOF

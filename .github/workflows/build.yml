@@ -123,9 +123,14 @@ jobs:
           <resources>
             <color name="fjmSplashBg">#ffffff</color>
             <color name="fjmNavBar">#050816</color>
+            <color name="fjmIconBg">#c41016</color>
           </resources>
           EOF
           sed -i 's/^          //' $RES/fjm.xml
+          # Kisary mihetsika: ny background dia loko (tsy sary) → misoroka "mipmap/ic_launcher_background not found"
+          for f in android/app/src/main/res/mipmap-anydpi-v26/*.xml; do
+            [ -f "$f" ] && sed -i 's#@mipmap/ic_launcher_background#@color/fjmIconBg#g; s#@color/ic_launcher_background#@color/fjmIconBg#g' "$f" && echo "patched $f" && cat "$f"
+          done
           python3 - <<'PY'
           import re
           p = "android/app/src/main/res/values/styles.xml"
@@ -177,4 +182,3 @@ jobs:
           make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

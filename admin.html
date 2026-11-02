@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="mg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173d32">
+  <meta name="description" content="Admin — Baiboly sy Fihirana FJM">
+  <title>Admin · Baiboly sy Fihirana FJM</title>
+  <style>
+    :root{
+      --green:#173d32;--green2:#1f4d40;--gold:#c8a96a;--paper:#f4f1ea;--surface:#fff;
+      --ink:#1c221f;--muted:#5c655f;--line:#e4e0d6;--danger:#8a302c;--accent:#2d6a4f;
+      --nav-h:56px;--radius:14px;
+    }
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:calc(var(--nav-h) + 24px + env(safe-area-inset-bottom))}
+    .top{position:sticky;top:0;z-index:20;background:var(--green);color:#fff;padding:12px 14px calc(12px);border-bottom:3px solid var(--gold);display:flex;align-items:center;gap:12px}
+    .top .logo{width:40px;height:44px;object-fit:contain;border-radius:6px;background:#ffffff18}
+    .top h1{margin:0;font-size:16px;font-weight:700;line-height:1.25}
+    .top p{margin:2px 0 0;font-size:11px;opacity:.85}
+    .pill{margin-left:auto;background:#ffffff22;border:1px solid #ffffff33;border-radius:20px;padding:6px 10px;font-size:11px}
+    main{max-width:760px;margin:0 auto;padding:12px}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:12px;box-shadow:0 4px 14px #0f172a0a}
+    .card h2{margin:0 0 8px;font-size:15px}
+    .muted{color:var(--muted);font-size:13px;line-height:1.45}
+    .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+    .tabs::-webkit-scrollbar{display:none}
+    .tabs button{flex:0 0 auto;border:0;border-radius:999px;padding:9px 14px;font:inherit;font-size:13px;background:#e9e6dc;color:var(--ink);cursor:pointer}
+    .tabs button.on{background:var(--green);color:#fff}
+    input,textarea,select,button.btn{font:inherit;border-radius:10px;padding:11px 12px;width:100%;margin:5px 0;border:1px solid #d5d1c7;background:#fff;color:var(--ink)}
+    textarea{min-height:120px;resize:vertical}
+    button.btn{border:0;background:var(--green);color:#fff;cursor:pointer;font-weight:600}
+    button.btn.sec{background:#e9e6dc;color:var(--ink);font-weight:500}
+    button.btn.danger{background:var(--danger);color:#fff}
+    button.btn:disabled{opacity:.5;cursor:not-allowed}
+    .row{display:flex;gap:8px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}
+    label{display:block;font-size:13px;font-weight:600;margin-top:8px;color:var(--muted)}
+    .check{display:flex;align-items:center;gap:8px;font-weight:500;color:var(--ink)}
+    .check input{width:auto;margin:0}
+    .entry{padding:12px 0;border-bottom:1px solid var(--line)}
+    .entry:last-child{border-bottom:0}
+    .entry h3{margin:0 0 4px;font-size:15px}
+    .tag{display:inline-block;font-size:11px;background:#f5efdf;color:#6b5a35;border-radius:999px;padding:3px 8px;margin:2px 4px 2px 0}
+    .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .actions button{flex:1;min-width:88px}
+    .hidden{display:none!important}
+    .status{font-size:13px;color:var(--accent);padding:4px 0}
+    .notice{background:#fff7e5;border:1px solid #ead7a5;border-radius:12px;padding:12px;font-size:13px}
+    .banner-prev{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border-radius:12px;padding:12px 14px;margin-top:8px}
+    .banner-prev b{display:block;font-size:14px;margin-bottom:4px}
+    .banner-prev span{font-size:13px;opacity:.95;white-space:pre-wrap}
+    .bottom{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--green);padding-bottom:env(safe-area-inset-bottom);border-top:2px solid var(--gold)}
+    .bottom-in{max-width:760px;margin:0 auto;height:var(--nav-h);display:flex;align-items:center;justify-content:space-around;padding:0 6px}
+    .bottom a,.bottom button{background:transparent;border:0;color:#fff;font:inherit;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;opacity:.75;cursor:pointer;text-decoration:none;padding:6px}
+    .bottom a.on,.bottom button.on{opacity:1;font-weight:700}
+    .bottom svg{width:20px;height:20px}
+    #search{margin-top:0}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <img class="logo" src="./logo-menu.png" alt="" width="40" height="44" onerror="this.style.display='none'">
+    <div>
+      <h1>Admin · Baiboly sy Fihirana FJM</h1>
+      <p>Hira · Baiboly · Dikisionera · Hafatra</p>
+    </div>
+    <span class="pill" id="who">Tsy tafiditra</span>
+  </header>
+
+  <main>
+    <section class="card" id="loginCard">
+      <h2>Hiditra Admin</h2>
+      <p class="muted">Kaonty manana role admin ao amin’ny Supabase ihany.</p>
+      <label>Email</label>
+      <input id="email" type="email" autocomplete="username" placeholder="admin@…">
+      <label>Tenimiafina</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
+      <button class="btn" id="loginBtn">Hiditra</button>
+      <p class="status" id="loginStatus"></p>
+    </section>
+
+    <div id="appArea" class="hidden">
+      <section class="card">
+        <div class="tabs" id="adminTabs">
+          <button data-table="songs" class="on">Hira</button>
+          <button data-table="topics">Lohahevitra</button>
+          <button data-table="dictionary_entries">Dikisionera</button>
+          <button data-table="notifications">Hafatra</button>
+          <button data-table="activation_requests">Code</button>
+          <button data-table="bible_books">Boky</button>
+          <button data-table="bible_verses">Andininy</button>
+        </div>
+        <p class="status" id="status">—</p>
+        <input id="search" placeholder="Karohy…" autocomplete="off">
+        <div id="list"></div>
+      </section>
+
+      <section class="card">
+        <h2 id="formTitle">Hanampy / Hanova</h2>
+        <form id="entryForm">
+          <input type="hidden" id="editId">
+          <div id="fields"></div>
+          <div class="row" style="margin-top:10px">
+            <button type="submit" class="btn">Tehirizo</button>
+            <button type="button" class="btn sec" id="clearBtn">Foano</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Fitaovana</h2>
+        <div class="row">
+          <button class="btn sec" id="reloadBtn">Haka fanavaozana</button>
+          <button class="btn danger" id="logoutBtn">Hivoaka</button>
+        </div>
+        <p class="muted" style="margin-top:12px"><strong>Import faobe → Supabase</strong> <span class="muted">(alefaso aloha ny schema.sql; aza akatona ny pejy mandritra ny import)</span></p>
+        <div class="row">
+          <button class="btn sec imp" data-k="songs">Hira</button>
+          <button class="btn sec imp" data-k="topics">Lohahevitra</button>
+          <button class="btn sec imp" data-k="dict">Dikisionera</button>
+          <button class="btn danger" id="impStop" disabled>Ajanony</button>
+        </div>
+        <p class="muted" id="impStatus" style="margin-top:8px"></p>
+        <pre id="impLog" style="font:12px ui-monospace,monospace;background:#0b1220;color:#d1e7dd;padding:10px;border-radius:10px;max-height:220px;overflow:auto;white-space:pre-wrap;margin:6px 0 0;display:none"></pre>
+        
+      </section>
+    </div>
+
+    <section class="card notice">
+      <strong>Fanamarihana:</strong> ny app mpamaky dia maka ny votoaty <em>published</em> ihany.
+      Ny hafatra (notification) miseho eo ambony amin’ny app raha <em>active + published</em>.
+    </section>
+  </main>
+
+  <nav class="bottom"><div class="bottom-in">
+    <button type="button" class="on" data-jump="songs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Hira</button>
+    <button type="button" data-jump="dictionary_entries"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Diksio</button>
+    <button type="button" data-jump="notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Hafatra</button>
+    <a href="./"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>App</a>
+  </div></nav>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./config.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const TABLES = {
+    songs: { label: 'Hira', fields: [
+      ['number','Laharan-kira','number',true],
+      ['year','Taona (0 = boky voalohany)','number',false],
+      ['title','Lohateny','text',true],
+      ['lyrics','Tononkira','textarea',true],
+      ['topic','Lohahevitra','text',false],
+      ['audio_url','URL audio (mp3/https)','text',false],
+      ['published','Avoaka (Published)','checkbox',false]
+    ]},
+    topics: { label: 'Lohahevitra', fields: [
+      ['name','Anarana (Malagasy)','text',true],
+      ['name_fr','Anarana frantsay','text',false],
+      ['name_en','Anarana anglisy','text',false],
+      ['refs','Andininy: boky(1-66):toko:andininy, sarahy amin’ny «;» — ohatra 43:3:16; 19:23:1','verselist',false],
+      ['description','Fanamarihana (tsy ilaina)','textarea',false],
+      ['published','Avoaka','checkbox',false]
+    ]},
+    dictionary_entries: { label: 'Dikisionera', fields: [
+      ['word','Teny','text',true],
+      ['g','Glose (teny kely eo akaikin’ny teny)','text',false],
+      ['definition','Fanazavana','textarea',true],
+      ['refs','Andininy (sarahy amin’ny «;»)','refslist',false],
+      ['published','Avoaka','checkbox',false]
+    ]},
+    notifications: { label: 'Hafatra / Notification', fields: [
+      ['title','Lohateny','text',true],
+      ['body','Hafatra','textarea',true],
+      ['active','Mandeha (active)','checkbox',false],
+      ['published','Avoaka','checkbox',false],
+      ['starts_at','Manomboka (ISO na banga)','text',false],
+      ['ends_at','Mifarana (ISO na banga)','text',false]
+    ]},
+    bible_books: { label: 'Boky Baiboly', fields: [
+      ['testament','Testamenta','select',true,['Taloha','Vaovao']],
+      ['name','Anaran’ny boky','text',true],
+      ['position','Laharana','number',true],
+      ['published','Avoaka','checkbox',false]
+    ]},
+    activation_requests: { label: 'Code activation', fields: [
+      ['requester_name','Anarana','text',false],
+      ['requester_contact','Contact','text',true],
+      ['year','Taona','number',true],
+      ['message','Hafatra','textarea',false],
+      ['status','Status (pending/approved/rejected)','text',true],
+      ['code_issued','Code nomena (JM26-XXXX)','text',false],
+      ['admin_note','Fanamarihana Admin','text',false]
+    ]},
+    bible_verses: { label: 'Andininy', fields: [
+      ['book_id','ID boky','number',true],
+      ['chapter','Toko','number',true],
+      ['verse','Andininy','number',true],
+      ['text_content','Lahatsoratra','textarea',true],
+      ['published','Avoaka','checkbox',false]
+    ]}
+  };
+
+  let db=null, currentTable='songs', currentUser=null;
+  let records = { songs:[], topics:[], dictionary_entries:[], notifications:[], activation_requests:[], bible_books:[], bible_verses:[] };
+
+  const setStatus = s => { const el=$('status'); if(el) el.textContent=s; };
+  const isAdmin = () => !!currentUser && currentUser.app_metadata?.role === 'admin';
+
+  function buildForm() {
+    const host = $('fields'); host.replaceChildren();
+    const cfg = TABLES[currentTable];
+    $('formTitle').textContent = cfg.label + ' — Hanampy / Hanova';
+    cfg.fields.forEach(([key,label,type,required,options]) => {
+      const wrap = document.createElement('label');
+      wrap.textContent = label;
+      let el;
+      if (type === 'textarea') el = document.createElement('textarea');
+      else if (type === 'select') {
+        el = document.createElement('select');
+        (options||[]).forEach(o => { const op=document.createElement('option'); op.value=o; op.textContent=o; el.append(op); });
+      } else if (type === 'checkbox') {
+        el = document.createElement('input'); el.type = 'checkbox';
+        wrap.className = 'check'; wrap.textContent = '';
+        const span = document.createElement('span'); span.textContent = label;
+        wrap.append(el, span);
+        el.id = 'f_'+key; el.dataset.field = key;
+        host.append(wrap);
+        return;
+      } else {
+        el = document.createElement('input'); el.type = (type === 'refslist' || type === 'verselist') ? 'text' : type;
+      }
+      el.id = 'f_'+key; el.dataset.field = key;
+      if (type !== 'checkbox') el.required = !!required;
+      wrap.append(el); host.append(wrap);
+    });
+  }
+
+  function clearForm() { $('entryForm').reset(); $('editId').value = ''; }
+
+  function chooseTable(table) {
+    currentTable = table;
+    document.querySelectorAll('#adminTabs button').forEach(b => b.classList.toggle('on', b.dataset.table === table));
+    document.querySelectorAll('.bottom button[data-jump]').forEach(b => b.classList.toggle('on', b.dataset.jump === table));
+    buildForm(); clearForm(); renderList();
+  }
+
+  function renderList() {
+    const host = $('list'); host.replaceChildren();
+    const q = ($('search').value || '').trim().toLowerCase();
+    let rows = records[currentTable] || [];
+    if (q) rows = rows.filter(r => JSON.stringify(r).toLowerCase().includes(q));
+    if (!rows.length) {
+      host.innerHTML = '<p class="muted">Tsy misy votoaty.</p>';
+      return;
+    }
+    rows.slice(0, 200).forEach(r => {
+      const box = document.createElement('article');
+      box.className = 'entry';
+      let title = '', sub = '';
+      if (currentTable === 'songs') { title = (r.number||'') + '. ' + (r.title||''); sub = (r.year ? 'Taona ' + r.year + ' · ' : '') + (r.topic||''); }
+      else if (currentTable === 'topics') { title = r.name||''; sub = (r.description||'').slice(0,80); }
+      else if (currentTable === 'dictionary_entries') { title = r.word||''; sub = (r.definition||'').slice(0,90); }
+      else if (currentTable === 'notifications') { title = r.title||'(Hafatra)'; sub = (r.body||'').slice(0,100); }
+      else if (currentTable === 'bible_books') { title = r.name||''; sub = r.testament||''; }
+      else { title = 'Boky ' + r.book_id + ' ' + r.chapter + ':' + r.verse; sub = (r.text_content||'').slice(0,80); }
+
+      const h = document.createElement('h3'); h.textContent = title; box.append(h);
+      if (sub) { const p = document.createElement('p'); p.className='muted'; p.textContent = sub; box.append(p); }
+      if (r.published) { const t=document.createElement('span'); t.className='tag'; t.textContent='Published'; box.append(t); }
+      if (currentTable==='notifications' && r.active) { const t=document.createElement('span'); t.className='tag'; t.textContent='Active'; box.append(t); }
+
+      if (currentTable === 'notifications') {
+        const prev = document.createElement('div');
+        prev.className = 'banner-prev';
+        prev.innerHTML = '<b></b><span></span>';
+        prev.querySelector('b').textContent = r.title || 'Hafatra';
+        prev.querySelector('span').textContent = r.body || '';
+        box.append(prev);
+      }
+
+      let pendingBtn = null;
+      if (currentTable === 'activation_requests') {
+        const info = document.createElement('p');
+        info.className = 'muted';
+        info.textContent = (r.requester_name || '') + ' · ' + (r.requester_contact || '') + ' · taona ' + r.year + ' · ' + (r.status || '');
+        box.append(info);
+        if (r.message) {
+          const msg = document.createElement('p');
+          msg.className = 'muted';
+          msg.textContent = r.message;
+          box.append(msg);
+        }
+        if (r.code_issued) {
+          const codeBox = document.createElement('div');
+          codeBox.className = 'banner-prev';
+          codeBox.innerHTML = '<b>Code</b><span style="font:700 16px ui-monospace,monospace;letter-spacing:1px"></span>';
+          codeBox.querySelector('span').textContent = r.code_issued;
+          const copy = document.createElement('button');
+          copy.className = 'btn sec';
+          copy.textContent = 'Adikao';
+          copy.style.marginTop = '8px';
+          copy.onclick = async () => {
+            try { await navigator.clipboard.writeText(r.code_issued); alert('Voadika'); }
+            catch { alert(r.code_issued); }
+          };
+          codeBox.append(copy);
+          box.append(codeBox);
+        }
+        if (r.status === 'pending') {
+          const acc = document.createElement('button');
+          acc.className = 'btn';
+          acc.textContent = 'Ekena + forony code';
+          acc.onclick = () => approveRequest(r);
+          pendingBtn = acc;
+        }
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const edit = document.createElement('button');
+      edit.className = 'btn sec'; edit.textContent = 'Hanova';
+      edit.onclick = () => loadRecord(r);
+      const del = document.createElement('button');
+      del.className = 'btn danger'; del.textContent = 'Hamafa';
+      del.onclick = () => deleteRecord(r);
+      actions.append(edit, del);
+      if (pendingBtn) actions.prepend(pendingBtn);
+      box.append(actions);
+      host.append(box);
+    });
+    if (rows.length > 200) {
+      const more = document.createElement('p');
+      more.className = 'muted';
+      more.textContent = '… ' + rows.length + ' total (200 voalohany). Ampiasao ny karohy.';
+      host.append(more);
+    }
+  }
+
+  function loadRecord(r) {
+    $('editId').value = r.id;
+    TABLES[currentTable].fields.forEach(([key,,, ,]) => {
+      const el = $('f_'+key); if (!el) return;
+      if (el.type === 'checkbox') el.checked = !!r[key];
+      else if (Array.isArray(r[key])) el.value = r[key].map(x => Array.isArray(x) ? x.join(':') : x).join('; ');
+      else el.value = r[key] ?? '';
+    });
+    $('entryForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Supabase mampiato 1000 andalana isaky ny fangatahana → mamaky pejy isan-1000
+  async function fetchAllRows(table, maxRows) {
+    const PAGE = 1000;
+    let from = 0, rows = [];
+    for (;;) {
+      const { data, error } = await db.from(table).select('*').order('id', { ascending: true }).range(from, from + PAGE - 1);
+      if (error) throw error;
+      rows = rows.concat(data || []);
+      if (!data || data.length < PAGE || (maxRows && rows.length >= maxRows)) break;
+      from += PAGE;
+    }
+    return rows;
+  }
+
+  async function syncAll() {
+    if (!db) return;
+    setStatus('Maka…');
+    try {
+      for (const table of Object.keys(TABLES)) {
+        // andininy Baiboly: be loatra (~31 000) → 1000 voalohany ihany eto
+        records[table] = await fetchAllRows(table, table === 'bible_verses' ? 1000 : 0);
+      }
+      renderList();
+      setStatus('Nohavaozina · ' + new Date().toLocaleTimeString());
+    } catch (e) {
+      setStatus('Tsy nahazo: ' + (e.message || e));
+      console.error(e);
+    }
+  }
+
+  
+  function genCode(year) {
+    const y = String(year || 2026).slice(-2);
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let s = '';
+    for (let i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)];
+    return 'JM' + y + '-' + s;
+  }
+  async function approveRequest(r) {
+    let code = prompt('Code JM26-XXXX (banga = foronina ho azy):', genCode(r.year));
+    if (code === null) return;
+    code = (code || genCode(r.year)).trim().toUpperCase();
+    if (!/^JM\d{2}-[A-Z0-9]{4,}$/i.test(code)) {
+      alert('Format: JM26-XXXX');
+      return;
+    }
+    // insert code + update request
+    const { error: e1 } = await db.from('activation_codes').upsert({
+      code, year: r.year || 2026, active: true, label: r.requester_name || '', request_id: r.id
+    }, { onConflict: 'code' });
+    if (e1) { alert('Code: ' + e1.message); return; }
+    const { error: e2 } = await db.from('activation_requests').update({
+      status: 'approved', code_issued: code, updated_at: new Date().toISOString()
+    }).eq('id', r.id);
+    if (e2) { alert('Request: ' + e2.message); return; }
+    alert('Ekena. Code: ' + code);
+    await syncAll();
+  }
+
+  async function deleteRecord(r) {
+    if (!confirm('Hamafa ve?')) return;
+    const { error } = await db.from(currentTable).delete().eq('id', r.id);
+    if (error) { alert(error.message); return; }
+    await syncAll();
+  }
+
+  $('entryForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!isAdmin()) { alert('Admin ihany'); return; }
+    const row = {};
+    for (const [key, , type] of TABLES[currentTable].fields) {
+      const el = $('f_'+key); if (!el) continue;
+      if (type === 'checkbox') row[key] = el.checked;
+      else if (type === 'number') row[key] = el.value === '' ? null : Number(el.value);
+      else if (type === 'verselist') {
+        const parts = el.value.split(';').map(x => x.trim()).filter(Boolean);
+        const out = [];
+        for (const x of parts) {
+          const m = x.match(/^(\d+)\s*[:.,]\s*(\d+)\s*[:.,]\s*(\d+)$/);
+          if (!m || +m[1] < 1 || +m[1] > 66) { alert('Andininy diso: «' + x + '» — ampiasao boky(1-66):toko:andininy'); return; }
+          out.push([+m[1], +m[2], +m[3]]);
+        }
+        row[key] = out;
+      }
+      else if (type === 'refslist') row[key] = el.value.split(';').map(x => x.trim()).filter(Boolean);
+      else {
+        let v = el.value.trim();
+        if ((key === 'starts_at' || key === 'ends_at') && !v) v = null;
+        row[key] = v;
+      }
+    }
+    if (currentTable === 'songs' && (row.year == null || isNaN(row.year))) row.year = 0;
+    row.updated_at = new Date().toISOString();
+    const id = $('editId').value;
+    const result = id
+      ? await db.from(currentTable).update(row).eq('id', Number(id))
+      : await db.from(currentTable).insert(row);
+    if (result.error) { alert('Tsy voatahiry: ' + result.error.message); return; }
+    clearForm();
+    await syncAll();
+  });
+
+  $('loginBtn').onclick = async () => {
+    if (!window.APP_CONFIG || !window.supabase) {
+      $('loginStatus').textContent = 'config.js tsy vonona';
+      return;
+    }
+    db = window.supabase.createClient(APP_CONFIG.SUPABASE_URL, APP_CONFIG.SUPABASE_KEY);
+    const { data, error } = await db.auth.signInWithPassword({
+      email: $('email').value.trim(),
+      password: $('password').value
+    });
+    if (error) { $('loginStatus').textContent = error.message; return; }
+    if (data.user?.app_metadata?.role !== 'admin') {
+      await db.auth.signOut();
+      $('loginStatus').textContent = 'Tsy manana alalana Admin';
+      return;
+    }
+    currentUser = data.user;
+    $('who').textContent = currentUser.email;
+    $('loginCard').classList.add('hidden');
+    $('appArea').classList.remove('hidden');
+    buildForm();
+    await syncAll();
+  };
+
+  $('logoutBtn').onclick = async () => {
+    if (db) await db.auth.signOut();
+    currentUser = null;
+    $('appArea').classList.add('hidden');
+    $('loginCard').classList.remove('hidden');
+    $('who').textContent = 'Tsy tafiditra';
+  };
+  $('clearBtn').onclick = clearForm;
+  $('reloadBtn').onclick = syncAll;
+  $('search').addEventListener('input', renderList);
+  document.querySelectorAll('#adminTabs button').forEach(b => b.onclick = () => chooseTable(b.dataset.table));
+  document.querySelectorAll('.bottom button[data-jump]').forEach(b => b.onclick = () => chooseTable(b.dataset.jump));
+
+  // session restore
+  if (window.APP_CONFIG && window.supabase) {
+    db = window.supabase.createClient(APP_CONFIG.SUPABASE_URL, APP_CONFIG.SUPABASE_KEY);
+    db.auth.getSession().then(async ({ data }) => {
+      const u = data.session?.user;
+      if (u?.app_metadata?.role === 'admin') {
+        currentUser = u;
+        $('who').textContent = u.email;
+        $('loginCard').classList.add('hidden');
+        $('appArea').classList.remove('hidden');
+        buildForm();
+        await syncAll();
+      }
+    });
+  }
+
+  // ================= Import faobe (Hira / Lohahevitra / Dikisionera) =================
+  let stop = false;
+  const now = () => new Date().toISOString();
+  const impStatus = s => { $('impStatus').textContent = s; };
+  const log = m => { const el = $('impLog'); el.style.display = 'block'; el.textContent += m + '\n'; el.scrollTop = el.scrollHeight; };
+  const loadJs = src => window.__loaded?.[src] ? Promise.resolve() : new Promise((ok, ko) => {
+    const s = document.createElement('script'); s.src = src; s.onload = () => { (window.__loaded ||= {})[src] = 1; ok(); }; s.onerror = () => ko(new Error(src + ' tsy hita')); document.head.appendChild(s);
+  });
+  // ---- Hira: unique (number, year) — misy laharana mitovy amin'ny taona samihafa
+  const songRows = () => (window.HIRA_SONGS || []).map(s => ({
+    number: parseInt(String(s.number).replace(/\D/g, ''), 10) || null,
+    year: parseInt(s.year, 10) || 0,
+    title: s.title || '', lyrics: s.lyrics || '', topic: s.category || s.topic || '',
+    published: true, updated_at: now()
+  })).filter(r => r.number != null && r.title);
+
+  // ---- Lohahevitra: [Anarana MG, FR, EN, [[boky,toko,andininy],…]]
+  const topicRows = () => (window.LOHAHEVITRA || []).filter(i => Array.isArray(i) && i[0]).map(i => ({
+    name: String(i[0]).trim(), name_fr: String(i[1] || '').trim(), name_en: String(i[2] || '').trim(),
+    refs: Array.isArray(i[3]) ? i[3] : [], description: '', published: true, updated_at: now()
+  }));
+
+  // ---- Dikisionera: word unique → teny mitovy omena laharana " (2)"
+  const dictRows = () => {
+    const seen = new Map(), rows = [];
+    for (const e of (window.DIKISIONERA || [])) {
+      const base = (e.w || '').trim(); if (!base) continue;
+      const k = base.toLowerCase(), n = (seen.get(k) || 0) + 1; seen.set(k, n);
+      rows.push({ word: n === 1 ? base : base + ' (' + n + ')', g: String(e.g || '').trim(),
+        definition: String(e.t || '').trim(), refs: Array.isArray(e.r) ? e.r : [], published: true, updated_at: now() });
+    }
+    return rows;
+  };
+
+  const JOBS = {
+    songs: { label: 'hira', table: 'songs', conflict: 'number,year', batch: 40, rows: songRows },
+    topics: { label: 'lohahevitra', table: 'topics', conflict: 'name', batch: 40, rows: topicRows },
+    dict: { label: 'teny', table: 'dictionary_entries', conflict: 'word', batch: 50, rows: dictRows }
+  };
+
+  async function run(key) {
+    const need = { songs: 'hira-data.js', topics: 'lohahevitra.js', dict: 'dikisionera-data.js' }[key];
+    try { await loadJs('./' + need); } catch (e) { alert(e.message); return; }
+    const job = JOBS[key], rows = job.rows();
+    if (!rows.length) { alert('Tsy hita ny data (' + job.label + ')'); return; }
+    stop = false;
+    document.querySelectorAll('.imp').forEach(b => b.disabled = true);
+    $('impStop').disabled = false;
+    log('Manomboka: ' + rows.length + ' ' + job.label);
+    let ok = 0, fail = 0;
+    for (let i = 0; i < rows.length && !stop; i += job.batch) {
+      const chunk = rows.slice(i, i + job.batch);
+      const { error } = await db.from(job.table).upsert(chunk, { onConflict: job.conflict });
+      if (error) { fail += chunk.length; log('✗ batch ' + (Math.floor(i / job.batch) + 1) + ': ' + error.message); }
+      else { ok += chunk.length; impStatus(ok + ' / ' + rows.length + ' (' + Math.round(ok / rows.length * 100) + '%)'); }
+      await new Promise(r => setTimeout(r, 180));
+    }
+    log((stop ? '— Najanona — ' : '— Vita — ') + ok + ' ' + job.label + (fail ? ', ' + fail + ' tsy nety' : ''));
+    impStatus((stop ? 'Najanona · ' : 'Vita · ') + ok + ' ' + job.label + (fail ? ', ' + fail + ' tsy nety' : ''));
+    document.querySelectorAll('.imp').forEach(b => b.disabled = false);
+    $('impStop').disabled = true;
+  }
+
+  $('impStop').onclick = () => { stop = true; log('… najanona'); };
+  document.querySelectorAll('.imp').forEach(b => b.onclick = () => run(b.dataset.k));
+})();
+</script>
+</body>
+</html>

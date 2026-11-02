@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "207514076441",
+    "project_id": "fihirana-a2910",
+    "storage_bucket": "fihirana-a2910.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207514076441:android:57e544450ef2668f9fb188",
+        "android_client_info": {
+          "package_name": "mg.jesosymamonjy.hiraplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdQVbEr7GiWvp-a9vOgLbTDUE8WKD9LY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

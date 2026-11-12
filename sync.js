@@ -171,7 +171,8 @@
         w: raw.replace(/\s+\(\d+\)\s*$/, ''),
         g: r.g || '',
         t: r.definition || '',
-        r: Array.isArray(r.refs) ? r.refs : []
+        r: Array.isArray(r.refs) ? r.refs : [],
+        i: r.image_url || ''
       });
     });
     (staticDict || []).forEach(e => {

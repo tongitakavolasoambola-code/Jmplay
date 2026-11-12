@@ -309,6 +309,51 @@ body.mode-bible .main{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-in
 .b-actions .cnt{min-width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;flex:0 0 34px}
 .sbox{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0 8px 0 14px;margin-bottom:12px;color:var(--muted)}
 .sbox input{flex:1;min-width:0;background:none;border:0;outline:0;padding:14px 4px;font-size:16px;color:var(--ink)}
+/* ---------- Fandraisana (Baiboly) ---------- */
+#view-bhome{padding-bottom:96px}
+.bh-hello{margin:4px 2px 0;color:var(--muted);font-size:14px}
+.bh-hello b{font-weight:600;color:var(--ink)}
+.bh-title{margin:2px 2px 18px;font:700 clamp(27px,7.6vw,36px)/1.1 var(--serif);letter-spacing:-.015em;color:var(--ink)}
+.bh-title em{font-style:normal;color:var(--green)}
+.bh-hero{position:relative;overflow:hidden;border-radius:30px;padding:22px 22px 20px;color:#fff;background:linear-gradient(150deg,var(--green-dark) 0%,var(--green) 100%);box-shadow:0 18px 36px -18px var(--green)}
+.bh-hero::before{content:"";position:absolute;right:-60px;top:-60px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,#ffffff30,#ffffff00 70%)}
+.bh-hero::after{content:"“";position:absolute;right:16px;bottom:-34px;font:700 150px/1 var(--serif);color:#ffffff1c;pointer-events:none}
+.bh-kicker{position:relative;font:700 11.5px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;opacity:.88}
+.bh-verse{position:relative;margin:14px 0 18px;font:500 clamp(19px,5.4vw,25px)/1.5 var(--serif);letter-spacing:.002em}
+.bh-ref,.bh-btn{position:relative;display:inline-flex;align-items:center;gap:8px;border:1px solid #ffffff55;background:#ffffff26;color:#fff;font:700 15px/1 system-ui,sans-serif;padding:13px 18px;border-radius:999px;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:.15s}
+.bh-ref:active,.bh-btn:active{transform:scale(.97);background:#ffffff40}
+.bh-sec{display:flex;align-items:baseline;justify-content:space-between;margin:28px 2px 12px;font:700 21px/1.2 var(--serif);color:var(--ink)}
+.bh-sec small{font:600 12px system-ui,sans-serif;color:var(--muted);letter-spacing:.04em}
+.bh-tiles{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none;scroll-snap-type:x proximity}
+.bh-tiles::-webkit-scrollbar{display:none}
+.bh-tile{flex:0 0 auto;width:78px;display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:none;color:var(--ink);font:600 12.5px/1.2 system-ui,sans-serif;cursor:pointer;scroll-snap-align:start;padding:0;text-align:center}
+.bh-tile .bh-ic{width:66px;height:66px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--accent);border:1px solid var(--line);transition:.15s}
+.bh-tile:active .bh-ic{transform:scale(.94)}
+.bh-tile .ic{width:26px;height:26px}
+.bh-card{display:flex;gap:14px;align-items:center;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:16px;color:var(--ink);cursor:pointer;box-shadow:var(--shadow);transition:.15s;font:inherit}
+.bh-card:active{transform:scale(.99)}
+.bh-card + .bh-card{margin-top:12px}
+.bh-card .bh-badge{flex:0 0 auto;width:52px;height:52px;border-radius:18px;display:grid;place-items:center;background:var(--soft);color:var(--accent)}
+.bh-card .bh-badge .ic{width:24px;height:24px}
+.bh-card .bh-info{min-width:0;flex:1}
+.bh-card .bh-label{font:700 11px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.bh-card h3{margin:0;font:700 20px/1.2 var(--serif);color:var(--ink)}
+.bh-card p{margin:5px 0 0;color:var(--muted);font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.bh-card .bh-go{flex:0 0 auto;color:var(--muted)}
+.bh-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.bh-chip{font:600 12px/1 system-ui,sans-serif;padding:7px 10px;border-radius:999px;background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.bh-thumb{flex:0 0 auto;width:84px;height:84px;border-radius:20px;object-fit:cover;background:var(--surface2);border:1px solid var(--line)}
+.bh-skel{height:210px;border-radius:30px;background:linear-gradient(100deg,var(--surface2) 30%,var(--surface) 50%,var(--surface2) 70%);background-size:200% 100%;animation:bhsk 1.2s infinite linear}
+@keyframes bhsk{to{background-position:-200% 0}}
+.bh-lock{opacity:.9}
+/* Sary ao amin'ny dikisionera */
+.d-fig{margin:0 0 12px;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:var(--surface2);box-shadow:var(--shadow)}
+.d-fig img{display:block;width:100%;max-height:300px;object-fit:cover;cursor:zoom-in}
+.d-th{flex:0 0 auto;width:52px;height:52px;border-radius:14px;object-fit:cover;background:var(--surface2);border:1px solid var(--line)}
+#imgBox{position:fixed;inset:0;z-index:60;background:#000d;display:none;align-items:center;justify-content:center;padding:14px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+#imgBox.on{display:flex}
+#imgBox img{max-width:100%;max-height:92vh;border-radius:16px;box-shadow:0 20px 60px #000a}
+
 .t-card{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:10px 12px;cursor:pointer;transition:.15s;box-shadow:none}
 .t-card:hover{border-color:var(--accent)}.t-card:active{transform:scale(.99)}
 .t-card .num{display:none}
@@ -585,6 +630,55 @@ body.mode-bible .main{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-in
 
 </style>
 <script>try{var _s=localStorage,_r=document.documentElement,_t=_s.getItem('hiraplus_theme')||'dark';_r.dataset.theme=_t==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):_t;var _a=_s.getItem('hiraplus_accent')||'sky';_r.dataset.accent=_a;var _C={green:'#1fa971',blue:'#3558e0',brown:'#9a5b34',red:'#f3665c',pink:'#e84a8f',darkred:'#8b1a2e',violet:'#2e1065',sky:'#3b95e0'};document.querySelector('meta[name=theme-color]').content=_C[_a]||_C.sky;_r.dataset.font=_s.getItem('hiraplus_fonttype')||'std'}catch(e){}</script>
+<style id="homeCss">
+/* ===== Fandraisana (pejy voalohany) — gradient + takelaka mivoaka ===== */
+body.on-bhome .bar{display:none}
+body.on-bhome .main{padding:0 0 calc(var(--nav-h) + 24px + env(safe-area-inset-bottom));max-width:none}
+#view-bhome{padding:0}
+.hm-top{position:relative;overflow:hidden;color:#fff;padding:calc(env(safe-area-inset-top) + 16px) 18px 58px;background:linear-gradient(150deg,var(--green) 0%,var(--green-dark) 52%,#2a1240 100%)}
+.hm-top>*{position:relative}
+.hm-c{position:absolute!important;border-radius:50%;background:#ffffff14;pointer-events:none}
+.hm-c1{width:230px;height:230px;right:-70px;top:-60px}.hm-c2{width:150px;height:150px;left:-50px;top:150px;background:#ffffff0e}.hm-c3{width:90px;height:90px;right:30px;bottom:-30px;background:#ffffff18}
+.hm-brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.hm-brand img{height:36px;width:auto;border-radius:6px;background:#fff;padding:2px}
+.hm-brand span{flex:1;font:700 14px/1.15 system-ui,sans-serif;letter-spacing:.02em;opacity:.95}
+.hm-ico{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#ffffff26;color:#fff;border:1px solid #ffffff33}
+.hm-ico .ic{width:19px;height:19px}
+.hm-hello{margin:0;font:800 clamp(28px,8.4vw,36px)/1.08 system-ui,-apple-system,sans-serif;letter-spacing:-.02em}
+.hm-date{margin:6px 0 18px;font:500 14px/1.3 system-ui,sans-serif;opacity:.82}
+.hm-verse{background:#ffffff1f;border:1px solid #ffffff33;border-radius:26px;padding:18px 18px 16px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.hm-verse.hm-skel{height:190px;animation:bhsk 1.2s infinite linear;background:linear-gradient(100deg,#ffffff14 30%,#ffffff2a 50%,#ffffff14 70%);background-size:200% 100%}
+.hm-kick{display:flex;align-items:center;gap:7px;font:800 11px/1 system-ui,sans-serif;letter-spacing:.16em;text-transform:uppercase;opacity:.9}
+.hm-kick .ic{width:15px;height:15px}
+.hm-verse p{margin:12px 0 16px;font:500 clamp(17px,4.9vw,21px)/1.5 var(--serif);display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+.hm-white{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1b1033;border:0;border-radius:999px;padding:12px 18px;font:800 13.5px/1 system-ui,sans-serif;letter-spacing:.02em;box-shadow:0 8px 20px -8px #0006}
+.hm-white .ic,.hm-pill .ic{width:16px;height:16px}
+.hm-white span,.hm-pill span{display:inline-grid;place-items:center}
+.hm-sheet{position:relative;margin-top:-30px;background:var(--bg);border-radius:32px 32px 0 0;padding:22px 14px 8px;max-width:760px;margin-left:auto;margin-right:auto;box-shadow:0 -10px 30px -18px #0005}
+.hm-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px}
+.hm-tile{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;color:var(--ink);padding:0;min-width:0}
+.hm-tile b{font:700 11px/1.15 system-ui,sans-serif;text-align:center;overflow-wrap:anywhere}
+.hm-tic{width:100%;max-width:62px;aspect-ratio:1;border-radius:20px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--green),#2a1240);box-shadow:0 10px 18px -10px var(--green);flex:0 0 auto}
+.hm-tic .ic{width:25px;height:25px}
+.hm-tile:active .hm-tic,.hm-resume:active,.hm-pill:active,.hm-white:active{transform:scale(.96)}
+.hm-card{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:18px;margin:0 0 14px;box-shadow:var(--sh,0 10px 24px -16px #0003);overflow:hidden}
+.hm-img{display:block;width:calc(100% + 36px);margin:-18px -18px 14px;height:160px;object-fit:cover;background:var(--surface2)}
+.hm-label{display:inline-flex;align-items:center;gap:7px;font:800 11px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);background:var(--soft);padding:7px 11px;border-radius:999px}
+.hm-label .ic{width:14px;height:14px}
+.hm-card h3{margin:12px 0 2px;font:800 22px/1.2 var(--serif);color:var(--ink)}
+.hm-gloss{color:var(--accent);font:600 14px/1.3 system-ui,sans-serif;margin-bottom:2px}
+.hm-card p{margin:8px 0 0;color:var(--muted);font-size:14.5px;line-height:1.55;overflow-wrap:anywhere}
+.hm-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.hm-chip{font:600 12px/1 system-ui,sans-serif;padding:8px 11px;border-radius:999px;background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+.hm-pill{margin-top:16px;display:flex;width:100%;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:14px 20px;color:#fff;background:linear-gradient(90deg,var(--green),#2a1240);font:800 13.5px/1 system-ui,sans-serif;letter-spacing:.04em;text-transform:uppercase;box-shadow:0 12px 22px -12px var(--green)}
+.hm-resume{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:12px 16px 12px 12px;color:var(--ink);box-shadow:var(--sh,0 10px 24px -16px #0003)}
+.hm-resume .hm-tic{width:48px;border-radius:16px}
+.hm-resume>span:nth-child(2){flex:1;min-width:0;display:block}
+.hm-resume small{display:block;font:700 11px/1 system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.hm-resume b{font:800 17px/1.2 var(--serif)}
+.hm-go{color:var(--muted)}.hm-go .ic{width:20px;height:20px}
+.hm-lock{background:var(--surface)}
+</style>
 </head>
 <body>
 
@@ -694,6 +788,8 @@ body.mode-bible .main{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-in
       <div class="r-body" id="readerLyrics"></div>
     </article>
   </section>
+  <section class="view" id="view-bhome"><div id="bhHome"></div></section>
+
   <section class="view" id="view-bread">
     <div class="b-head"><div class="b-testa" id="bTesta"></div><h2 class="b-chtitle" id="bChTitle">Baiboly</h2></div>
     <div class="b-verses" id="bVerses"></div>
@@ -731,6 +827,7 @@ body.mode-bible .main{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-in
 
   <section class="view" id="view-dict-entry">
     <div class="dsz" style="display:flex;gap:8px;align-items:center;justify-content:flex-end;margin:6px 0"><span class="count" style="margin:0 auto 0 0;text-transform:none;letter-spacing:0">Haben'ny soratra <b class="dszv">16</b></span><button class="btn sec" style="padding:8px 14px" onclick="dictFont(-2)" aria-label="Ahena">A−</button><button class="btn" style="padding:8px 14px" onclick="dictFont(2)" aria-label="Alehibe">A+</button></div>
+    <figure class="d-fig hidden" id="dictFig"><img id="dictImg" alt="" loading="lazy" decoding="async"></figure>
     <div class="r-head" style="margin-bottom:10px">
       <div class="r-num" id="dictWord" style="font-size:calc(var(--dict-size) + 6px)">—</div>
       <p class="count" id="dictGloss" style="margin:6px 0 0;text-transform:none;letter-spacing:0;font-weight:600;font-size:calc(var(--dict-size) - 2px)"></p>
@@ -749,12 +846,14 @@ body.mode-bible .main{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-in
 </div></nav>
 
 <nav class="nav bnav"><div class="nav-in">
-  <button class="tab active" data-bt="read"><i data-ic="book"></i><span>Baiboly</span></button>
-  <button class="tab" data-bt="themes"><i data-ic="tag"></i><span>Fizahandohateny</span></button>
+  <button class="tab active" data-bt="home"><i data-ic="home"></i><span>Fandraisana</span></button>
+  <button class="tab" data-bt="read"><i data-ic="book"></i><span>Baiboly</span></button>
   <button class="hash" id="bHashBtn" aria-label="Mandehana any amin'ny boky, toko, andininy"><i data-ic="circle"></i></button>
-  <button class="tab" data-bt="fav"><i data-ic="heart"></i><span>Tiako</span></button>
+  <button class="tab" data-bt="dict"><i data-ic="dict"></i><span>Diksionera</span></button>
   <button class="tab" data-bt="hymn"><i data-ic="music"></i><span>Fihirana</span></button>
 </div></nav>
+
+<div id="imgBox" role="dialog" aria-label="Sary"><img id="imgBoxImg" alt=""></div>
 
 <div class="b-actions" id="bActions"><span class="cnt" id="bCnt"></span><button class="rbtn" id="bCopy"><i data-ic="copy"></i> Adikao</button><button class="rbtn" id="bShare" aria-label="Zarao"><i data-ic="share"></i></button><button class="rbtn" id="bFav" aria-label="Tiako"><i data-ic="heart"></i></button><button class="rbtn" id="bClr" aria-label="Akatony"><i data-ic="x"></i></button></div>
 
@@ -828,6 +927,8 @@ body.mode-bible .main{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-in
 <div class="sheet" id="bsheet" role="dialog" aria-label="Fikirana famakiana">
   <h3>Fikirana famakiana</h3>
   <p class="sheet-sub">Haben'ny soratra: <b id="bsSize">22</b></p>
+  <p class="sheet-sub">Dikan-teny</p>
+  <div class="row" style="justify-content:center;margin-bottom:14px"><button class="btn sec" data-bver="1865">Baiboly 1865</button><button class="btn sec" data-bver="diem">DIEM</button></div>
   <div class="row" style="justify-content:center;margin-bottom:14px"><button class="btn sec" id="bsMinus">A−</button><button class="btn sec" id="bsPlus">A+</button><button class="btn sec" id="bsReset">Averina</button></div>
 </div>
 
@@ -844,6 +945,9 @@ body.mode-bible .main{padding-bottom:calc(var(--nav-h) + 28px + env(safe-area-in
 <script>
 /* ---------- Sary kely (icônes) ---------- */
 const ICONS={
+ home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ dict:'<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="14" y2="13"/>',
+ star:'<polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9"/>',
  menu:'<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>',
  search:'<circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
  x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',

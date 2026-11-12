@@ -176,6 +176,7 @@
       ['g','Glose (teny kely eo akaikin’ny teny)','text',false],
       ['definition','Fanazavana','textarea',true],
       ['refs','Andininy (sarahy amin’ny «;»)','refslist',false],
+      ['image_url','Sary (tsy voatery)','image',false],
       ['published','Avoaka','checkbox',false]
     ]},
     notifications: { label: 'Hafatra / Notification', fields: [
@@ -236,6 +237,23 @@
         el.id = 'f_'+key; el.dataset.field = key;
         host.append(wrap);
         return;
+      } else if (type === 'image') {
+        el = document.createElement('input'); el.type = 'text'; el.placeholder = 'URL (azo apetaka) na tsindrio "Sary" ambany';
+        el.id = 'f_'+key; el.dataset.field = key;
+        wrap.append(el);
+        const box = document.createElement('div'); box.className = 'imgbox'; box.style.cssText = 'margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap';
+        const prev = document.createElement('img'); prev.id = 'imgPrev'; prev.alt = '';
+        prev.style.cssText = 'display:none;width:96px;height:96px;object-fit:cover;border-radius:12px;border:1px solid var(--line)';
+        const pick = document.createElement('button'); pick.type = 'button'; pick.className = 'btn sec'; pick.textContent = '📷 Sary';
+        const rm = document.createElement('button'); rm.type = 'button'; rm.className = 'btn sec'; rm.textContent = 'Esory';
+        const file = document.createElement('input'); file.type = 'file'; file.accept = 'image/*'; file.style.display = 'none';
+        const st = document.createElement('span'); st.className = 'muted'; st.id = 'imgStatus';
+        pick.onclick = () => file.click();
+        rm.onclick = () => { el.value = ''; refreshImagePreview(); };
+        el.addEventListener('input', refreshImagePreview);
+        file.onchange = () => uploadDictImage(file.files && file.files[0], el, st, file);
+        box.append(prev, pick, rm, file, st); wrap.append(box); host.append(wrap);
+        return;
       } else {
         el = document.createElement('input'); el.type = (type === 'refslist' || type === 'verselist') ? 'text' : type;
       }
@@ -245,7 +263,47 @@
     });
   }
 
-  function clearForm() { $('entryForm').reset(); $('editId').value = ''; }
+  function refreshImagePreview() {
+    const el = $('f_image_url'), p = $('imgPrev'); if (!el || !p) return;
+    const u = (el.value || '').trim();
+    if (u) { p.src = u; p.style.display = 'block'; } else { p.removeAttribute('src'); p.style.display = 'none'; }
+  }
+  // Mampihena ny sary (max 1000px, JPEG) alohan'ny hampiakarana → maivana ho an'ny data
+  function compressImage(file, max = 1000, q = 0.82) {
+    return new Promise((ok, ko) => {
+      const url = URL.createObjectURL(file), im = new Image();
+      im.onload = () => {
+        const k = Math.min(1, max / Math.max(im.width, im.height));
+        const c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+        const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(im, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        c.toBlob(b => b ? ok(b) : ko(new Error('compress')), 'image/jpeg', q);
+      };
+      im.onerror = () => { URL.revokeObjectURL(url); ko(new Error('Tsy afaka namaky ny sary')); };
+      im.src = url;
+    });
+  }
+  async function uploadDictImage(file, input, st, fileEl) {
+    if (!file) return;
+    if (!db || !isAdmin()) { alert('Midira Admin aloha.'); return; }
+    try {
+      st.textContent = 'Mampihena…';
+      const blob = await compressImage(file);
+      st.textContent = 'Mampiakatra (' + Math.round(blob.size / 1024) + ' Ko)…';
+      const word = ($('f_word') && $('f_word').value || 'sary').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'sary';
+      const path = word + '-' + Date.now().toString(36) + '.jpg';
+      const { error } = await db.storage.from('dict-images').upload(path, blob, { contentType: 'image/jpeg', cacheControl: '31536000', upsert: false });
+      if (error) throw error;
+      const { data } = db.storage.from('dict-images').getPublicUrl(path);
+      input.value = data.publicUrl; refreshImagePreview();
+      st.textContent = 'Voaray ✓ (tsindrio "Tehirizo" mba hotehirizina)';
+    } catch (e) {
+      st.textContent = '';
+      alert('Tsy nahomby ny fampiakarana: ' + (e.message || e) + '\n(Azo antoka ve fa nandeha ny schema.sql ao amin\'ny Supabase?)');
+    } finally { if (fileEl) fileEl.value = ''; }
+  }
+
+  function clearForm() { $('entryForm').reset(); $('editId').value = ''; refreshImagePreview(); const s = $('imgStatus'); if (s) s.textContent = ''; }
 
   function chooseTable(table) {
     currentTable = table;
@@ -270,7 +328,7 @@
       let title = '', sub = '';
       if (currentTable === 'songs') { title = (r.number||'') + '. ' + (r.title||''); sub = (r.year ? 'Taona ' + r.year + ' · ' : '') + (r.topic||''); }
       else if (currentTable === 'topics') { title = r.name||''; sub = (r.description||'').slice(0,80); }
-      else if (currentTable === 'dictionary_entries') { title = r.word||''; sub = (r.definition||'').slice(0,90); }
+      else if (currentTable === 'dictionary_entries') { title = (r.image_url ? '🖼 ' : '') + (r.word||''); sub = (r.definition||'').slice(0,90); }
       else if (currentTable === 'notifications') { title = r.title||'(Hafatra)'; sub = (r.body||'').slice(0,100); }
       else if (currentTable === 'activation_requests') { title = r.requester_name || '(Fangatahana code)'; sub = ''; }
       else if (currentTable === 'bible_books') { title = r.name||''; sub = r.testament||''; }
@@ -356,6 +414,7 @@
       else if (Array.isArray(r[key])) el.value = r[key].map(x => Array.isArray(x) ? x.join(':') : x).join('; ');
       else el.value = r[key] ?? '';
     });
+    refreshImagePreview();
     $('entryForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 

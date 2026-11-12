@@ -411,3 +411,22 @@ grant execute on function public.verify_activation_code(text, text) to anon, aut
 alter table public.topics add column if not exists name_fr text default '';
 alter table public.topics add column if not exists name_en text default '';
 alter table public.topics add column if not exists refs jsonb not null default '[]'::jsonb;
+
+
+-- 5) Sary ho an'ny dikisionera: tsanganana image_url + bucket "dict-images" (publika hamaky, Admin ihany no mampiakatra)
+alter table public.dictionary_entries add column if not exists image_url text default '';
+do $$
+begin
+  if to_regclass('storage.buckets') is not null then
+    insert into storage.buckets (id, name, public) values ('dict-images', 'dict-images', true)
+    on conflict (id) do update set public = true;
+    execute 'drop policy if exists "dict_img_read" on storage.objects';
+    execute 'create policy "dict_img_read" on storage.objects for select to anon, authenticated using (bucket_id = ''dict-images'')';
+    execute 'drop policy if exists "dict_img_admin_ins" on storage.objects';
+    execute 'create policy "dict_img_admin_ins" on storage.objects for insert to authenticated with check (bucket_id = ''dict-images'' and (auth.jwt()->''app_metadata''->>''role'') = ''admin'')';
+    execute 'drop policy if exists "dict_img_admin_upd" on storage.objects';
+    execute 'create policy "dict_img_admin_upd" on storage.objects for update to authenticated using (bucket_id = ''dict-images'' and (auth.jwt()->''app_metadata''->>''role'') = ''admin'')';
+    execute 'drop policy if exists "dict_img_admin_del" on storage.objects';
+    execute 'create policy "dict_img_admin_del" on storage.objects for delete to authenticated using (bucket_id = ''dict-images'' and (auth.jwt()->''app_metadata''->>''role'') = ''admin'')';
+  end if;
+end $$;

@@ -60,9 +60,11 @@ jobs:
         run: |
           npx @capacitor/assets generate --android --assetPath assets \
             --iconBackgroundColor "#c41016" --iconBackgroundColorDark "#c41016" \
-            --splashBackgroundColor "#ffffff" --splashBackgroundColorDark "#ffffff"
+            --splashBackgroundColor "#c41016" --splashBackgroundColorDark "#c41016"
           test -f android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || { echo "::error::Tsy namoaka kisary"; exit 1; }
           test -n "$(find android/app/src/main/res -path '*drawable*' -name 'splash.png' | head -1)" || { echo "::error::Tsy namoaka splash"; exit 1; }
+          # Splash lava (1080x2880): mameno ny ecran lehibe rehetra (ZTE sns) → soloina ny splash portrait rehetra
+          find android/app/src/main/res -name 'splash.png' -not -path '*land*' -exec cp assets/splash-tall.png {} \;
 
       - name: Sync Capacitor
         run: npx cap sync android
@@ -157,7 +159,7 @@ jobs:
           cat > $RES/fjm.xml <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <resources>
-            <color name="fjmSplashBg">#ffffff</color>
+            <color name="fjmSplashBg">#c41016</color>
             <color name="fjmNavBar">#050816</color>
             <color name="fjmIconBg">#c41016</color>
           </resources>
@@ -172,9 +174,10 @@ jobs:
           p = "android/app/src/main/res/values/styles.xml"
           t = open(p).read()
           t = t.replace('</style>', '        <item name="android:navigationBarColor">@color/fjmNavBar</item>\n    </style>', 1) if 'navigationBarColor' not in t else t
-          launch = '        <item name="windowSplashScreenBackground">@color/fjmSplashBg</item>\n        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>\n        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>\n'
+          launch = '        <item name="windowSplashScreenBackground">@color/fjmSplashBg</item>\n        <item name="windowSplashScreenAnimatedIcon">@drawable/fjm_blank</item>\n        <item name="postSplashScreenTheme">@style/AppTheme.NoActionBar</item>\n'
           t = re.sub(r'(<style name="AppTheme\.NoActionBarLaunch"[^>]*>)', lambda m: m.group(1) + '\n' + launch, t, count=1)
           open(p, "w").write(t)
+          open("android/app/src/main/res/drawable/fjm_blank.xml", "w").write('<?xml version="1.0" encoding="utf-8"?>\n<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24"><path android:fillColor="#00000000" android:pathData="M0,0h1v1h-1z"/></vector>\n')
           PY
           F=android/app/build.gradle
           V=$(node -p "require('./package.json').version")

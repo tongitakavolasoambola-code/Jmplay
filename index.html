@@ -681,6 +681,12 @@ body.on-bhome .main{padding:0 0 calc(var(--nav-h) + 24px + env(safe-area-inset-b
 </style>
 </head>
 <body>
+<div id="fjmSplash" style="position:fixed;inset:0;z-index:2147483000;background:#c41016 url(./splash.webp) center/cover no-repeat;transition:opacity .4s"></div>
+<script>(function(){var d=document.getElementById('fjmSplash');if(!d)return;var n=false;try{n=!!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform())}catch(e){}
+if(!n){d.remove();return}
+var t0=Date.now();function bye(){var w=Math.max(0,1100-(Date.now()-t0));setTimeout(function(){d.style.opacity='0';setTimeout(function(){d.remove()},450)},w)}
+if(document.readyState==='complete')bye();else window.addEventListener('load',bye);setTimeout(bye,4000)})()</script>
+
 
 <header class="bar" id="bar">
   <div class="wrap">

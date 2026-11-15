@@ -1,5 +1,5 @@
 const CACHE_NAME = 'fjm-cache-v1'; // build.js manampy ny laharan'ny build ao amin'ny dist/sw.js → mihavao ho azy ny app isaky ny deploy
-const APP_FILES = ['./', './index.html', './manifest.json', './config.js', './sync.js', './supabase.js', './bible-app.js', './hira-data.js', './lohahevitra.js', './dikisionera-data.js', './logo-menu.png', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png'];
+const APP_FILES = ['./', './index.html', './manifest.json', './config.js', './sync.js', './supabase.js', './bible-app.js', './hira-data.js', './lohahevitra.js', './dikisionera-data.js', './logo-menu.png', './splash.webp', './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png'];
 const BIBLE_FILES = ['./baiboly.js']; // lehibe (~4.5 Mo): tsy manakana ny fametrahana raha tsy tafiditra
 
 // Rakitra lehibe sy tsy miova: alaina avy hatrany amin'ny cache (tsy asiana tambajotra isaky ny sokafana).
